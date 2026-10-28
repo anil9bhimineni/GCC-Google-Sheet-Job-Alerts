@@ -1,6 +1,6 @@
 # Career Page Job Alerts: setup guide
 
-Get a **Telegram message within 30 minutes** of a new job appearing on your favourite companies' career pages, often before it reaches LinkedIn or Naukri.
+Get a **Telegram message within an hour** of a new job appearing on your favourite companies' career pages, often before it reaches LinkedIn or Naukri.
 
 - ✅ Free
 - ✅ Nothing to install
@@ -62,7 +62,7 @@ Still on the **Settings** tab, fill in the yellow cells:
 | **Roles you want** | Job titles you want, separated by commas | `Product Manager, Product Owner, Business Analyst` |
 | **Skip titles containing** | Words that mean "not for me" | `intern, sales, engineer` |
 | **Locations** | Cities or "Remote", separated by commas. Leave empty for anywhere | `Bengaluru, Bangalore, Hyderabad, Remote` |
-| **Check every (minutes)** | `30` (or `60` if you list more than 150 companies) | `30` |
+| **Check every (minutes)** | `60` is right for the 250 starter companies. Use `30` for faster alerts if you keep fewer than 150 | `60` |
 | **Also match job descriptions** | `Yes` also alerts when your role appears in the description, not just the title | `Yes` |
 
 💡 Add spelling variants too, e.g. both `Bengaluru` and `Bangalore`.
@@ -71,8 +71,8 @@ Still on the **Settings** tab, fill in the yellow cells:
 
 ## Step 5: Add your favourite companies
 
-1. Open the **Companies** tab.
-2. Replace the example companies with your own, **one per row** in column A. Use the name as it appears on the company's careers page, e.g. `Atlassian`, `Datadog`.
+1. Open the **Companies** tab. It comes with **250 companies** already filled in, mostly Global Capability Centres (GCCs) hiring in India.
+2. **Delete the rows you don't care about** and **add your own** companies, one per row in column A. Use the name as it appears on the company's careers page, e.g. `Atlassian`, `Datadog`.
 3. **Workday companies (optional):** many big companies use Workday. To check:
    - Open the company's careers website and click any job.
    - If the web address contains **myworkdayjobs.com**, copy it up to the first word after `.com/`. For example:
@@ -106,7 +106,7 @@ Still on the **Settings** tab, fill in the yellow cells:
   | Status | Meaning |
   |---|---|
   | ✅ Greenhouse / Lever / Ashby / Workday | Being watched |
-  | ⏳ Checking soon | Will be looked up in the next run (about 25 new companies per run) |
+  | ⏳ Checking soon | Will be looked up in a coming run (about 40 companies per run, so all 250 are checked within the first day) |
   | ❌ Not found | Its careers site isn't supported. Add its Workday link in column B, or remove it |
   | ⚠️ Workday link not working | Check the link in column B |
 
@@ -136,7 +136,7 @@ Still on the **Settings** tab, fill in the yellow cells:
 | Test says **"Unauthorized"** | The token is wrong. Copy it again from @BotFather |
 | No alerts after a day | Look at **Settings → Last run**. Are your companies ✅ on the Companies tab? Are your **Roles** and **Locations** too narrow? |
 | Lots of ❌ Not found | Normal for companies using SuccessFactors, Taleo, iCIMS or their own site. Add Workday links where possible, and follow the rest on LinkedIn |
-| "Service invoked too many times" in the Log tab | You're watching a lot of companies. Set **Check every** to `60` |
+| "Service invoked too many times" in the Log tab | You're watching a lot of companies. Keep **Check every** at `60` and remove companies you don't need |
 
 ---
 
