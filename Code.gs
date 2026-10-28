@@ -12,7 +12,10 @@ const APP = 'Job Alerts';
 const T = { START: 'Start here', SETTINGS: 'Settings', COMPANIES: 'Companies', ALERTS: 'Alerts', LOG: 'Log', SEEN: '_seen' };
 // Companies tab columns (1-based)
 const CC = { NAME: 1, WORKDAY: 2, STATUS: 3, OPEN: 4, CHECKED: 5, BOARD: 6, PRIMED: 7 };
-const LIMIT = { detectPerRun: 25, runMs: 270000, keepDays: 60, recheckDays: 7, fetchBatch: 40 };
+const LIMIT = { detectPerRun: 40, runMs: 270000, keepDays: 60, recheckDays: 7, fetchBatch: 40 };
+// Starter list for new copies: 250 companies, mostly Global Capability Centres (GCCs) hiring in India.
+const STARTER_COMPANIES = '4flow|Abercrombie & Fitch|Aeries Technology|AHEAD|Airbus|Albertsons|Alcon|Alvarez & Marsal|AMD|Amtech Software|Aon|Applied Materials|Arctic Wolf|ARKO Corp|Arrive|AstraZeneca|Atlassian|Availity|Axiado|BAT|Bayer|Bioforum|Care ADHD|Cargill|Catalyst Brands|Celonis|Chevron|Codec|Cognite|Consilio|CrashPlan|Curriculum Associates|Cyderes|Datadog|Deepwatch|DigiKey|DSP|eBay|Emerson|Ericsson|Ferguson|Festo|Fidelity Investments|First Citizens Bank|FIS|Ford Business Solutions|Fresenius Medical Care|Google|Graphcore|Guidewire|Harvey AI|Honeywell|Imagine Learning|Innocean|Kraft Heinz|Ladera Technology|Lowe\'s|Lufthansa|Magnum Ice Cream Company|Merck|Microchip Technology|MKS|Morgan Stanley|Mythic AI|Natus Sensory|NatWest|Netsmart|Pegasystems|Pioneer India|Progress Software|Proximus|RakSul|Rakuten|Reltio|RI Riveron|Rolls-Royce|SAP Labs India|Saptharushi India|Saviynt|SBM Offshore|Serko|Sirva|Skillz|Smartsheet|SolarEdge Technologies|State Bank of India|Stryker|Target Corporation|Tazapay|Texas Instruments|Thales|The Standard|Thermo Fisher Scientific|Toast|Toyota Motor Corporation|Under Armour|Wayfair|WEKA|Wells Fargo|WEX|WirelessCar|Woodside Energy|ZEISS|Zimmer Biomet|ZS Associates|ABC Fitness|Acumatica|Agilent Technologies|Amgen|Aperam|Apple India|ArcelorMittal|BASF|Billtrust|BL Blupace|Blackbaud|Boston Consulting Group|Centrica|Charles Schwab|CIBC|Citizens Financial Group|Citrin Cooperman|Cohere Health|Costco Wholesale|Coupang|Covasant Technologies|DA Dai-ichi Life Group|Dark Matter|DAZN|DESRI|Deutsche Börse|Eli Lilly and Company (India)|Entain|Evergent Technologies|Facebook India Online Services Pvt Ltd|Flutter Entertainment|Fortuna Entertainment Group|GI Outsourcing|Guidehouse|HCA Healthcare|HEINEKEN|HSBC|Hyland|Insight Global|InvoiceCloud|IQ-EQ|isolved|Itineris|JAGGAER|JLL|Johnson & Johnson|JPMorgan Chase|L\'Oréal|LiveRamp|Lonza Group|LPL Financial|Marriott International|Mattel|Maximus Inc|McDonald\'s|Meltwater|Miamin Systems|MSD|Nasuni|Nationwide|Nemetschek Group|Netflix|Novartis|Oaktree Capital|Octave|Omnicom Group|Optimum Solutions|Otto Group|ProductSquads|Proofpoint|Protolabs|Providence Health|Reckitt|Redwood Software|Regeneron Pharmaceuticals|Sanofi|Silicon Labs|Sonatype|Sonoco|Southwest Airlines|StarRez|Stolt-Nielsen|Syneos Health|Syneriq Global|T-Mobile USA|TestingXperts|The Hartford|Theom|Tredence|Truist Financial Corporation|Truveta|UBS|Vanguard|Veramed|VIRA Insight|Voya Financial|Welspun|Western Union|Wise|Workato|Zurich Insurance Group|Altimetrik|AMS|Aramex|Arctera|Assent|AT&S|Boston Scientific|bp|Calderys|Cognyte|DAMAC Group|DeepIntent|Eaton|Edwards Lifesciences|Fastly|Fluidra|Generac|Hexadex|HMH Tech India|Intercontinental Exchange|Leidos|Liebherr|Litmos|Medtronic|METRO AG|MindZvue|Mizuho|Orbia|Orion Innovation|Rapid7|Sandvik|Schmersal|SKF|Snowflake|Sonny\'s Enterprises|Syensqo|Syngenta|Tenthpin|TVH India|Unipart|Vanderlande|Veradigm|Wacker|Zendesk'.split('|');
+const STARTER_WORKDAY = { AstraZeneca: 'https://astrazeneca.wd3.myworkdayjobs.com/Careers', Amgen: 'https://amgen.wd1.myworkdayjobs.com/Careers' };
 
 /* =============================== settings =============================== */
 
@@ -28,7 +31,7 @@ function settings_() {
     roles: list(get('Roles you want', '')),
     skip: list(get('Skip titles containing', '')),
     locations: list(get('Locations', '')),
-    minutes: Number(get('Check every (minutes)', 30)) === 60 ? 60 : 30,
+    minutes: Number(get('Check every (minutes)', 60)) === 30 ? 30 : 60,
     matchDescription: !/^no/i.test(String(get('Also match job descriptions', 'Yes'))),
   };
 }
@@ -355,7 +358,7 @@ function buildTemplate() {
     ['STEP 3', 'In Telegram, open YOUR new bot (BotFather sends a link) and press START.'],
     ['STEP 4', 'Here, click the menu  Job Alerts → 1. Find my Telegram chat ID.  Google asks for permission the first time: Continue → choose your account → Advanced → Go to (unsafe) → Allow. Then click the menu item again.'],
     ['STEP 5', 'Settings tab: type the roles you want, words to skip, and your locations.'],
-    ['STEP 6', 'Companies tab: replace the examples with your companies (one per row). Workday careers links go in column B (optional).'],
+    ['STEP 6', 'Companies tab: it comes with 250 companies (mostly GCCs in India). Delete the ones you don\'t want and add your own, one per row. Workday careers links go in column B (optional).'],
     ['STEP 7', 'Job Alerts → 2. Send a test message. Got it on Telegram? Then Job Alerts → 3. Start alerts. Done!'],
     ['', ''],
     ['GOOD TO KNOW', '• No alerts on the first day is normal: it first records the jobs already posted, then alerts you about NEW ones.\n• The Companies tab shows which companies are being watched (✅) and which need a Workday link (❌).\n• Every alert is also saved on the Alerts tab.\n• To pause: Job Alerts → Stop alerts.'],
@@ -377,7 +380,7 @@ function buildTemplate() {
     ['Roles you want', 'Product Manager, Product Owner, Business Analyst', 'Job titles you want, separated by commas'],
     ['Skip titles containing', 'intern, sales, engineer, developer, recruiter', 'Words that mean "not for me", separated by commas'],
     ['Locations', 'India, Bengaluru, Bangalore, Hyderabad, Pune, Remote', 'Separated by commas. Leave empty for anywhere'],
-    ['Check every (minutes)', 30, '30 or 60. Use 60 if you watch more than 150 companies'],
+    ['Check every (minutes)', 60, '60 suits up to ~300 companies. Use 30 for faster alerts if you watch fewer than 150'],
     ['Also match job descriptions', 'Yes', 'Yes = also alert when the role is named in the job description, not just the title'],
     ['', '', ''],
     ['Last run', '', 'Updated automatically after every check'],
@@ -394,13 +397,11 @@ function buildTemplate() {
   const co = tab(T.COMPANIES);
   co.clear();
   co.getRange(1, 1, 1, 7).setValues([['Company', 'Workday careers link (optional)', 'Status (automatic)', 'Open jobs', 'Last checked', '_board', '_primed']]);
-  const examples = ['Atlassian', 'Datadog', 'Snowflake', 'Zendesk', 'Toast', 'Wayfair', 'Rubrik', 'Databricks'];
-  co.getRange(2, 1, examples.length, 1).setValues(examples.map((c) => [c]));
-  co.getRange(2 + examples.length, 1, 1, 2).setValues([['AstraZeneca', 'https://astrazeneca.wd3.myworkdayjobs.com/Careers']]);
+  co.getRange(2, 1, STARTER_COMPANIES.length, 2).setValues(STARTER_COMPANIES.map((c) => [c, STARTER_WORKDAY[c] || '']));
   co.getRange('A1:E1').setFontWeight('bold').setBackground('#EAF2F2');
   co.getRange('A1:B1').setBackground('#FFE8A3');
   co.setColumnWidth(1, 220); co.setColumnWidth(2, 380); co.setColumnWidth(3, 330); co.setColumnWidth(5, 140);
-  co.getRange('E2:E1000').setNumberFormat('d mmm hh:mm');
+  co.getRange('E2:E2000').setNumberFormat('d mmm hh:mm');
   co.hideColumns(6, 2); co.setFrozenRows(1);
 
   const al = tab(T.ALERTS);
