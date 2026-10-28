@@ -4,7 +4,7 @@
 
 No n8n, no Docker, no coding. Make a copy of a Google Sheet, fill in a few cells, press Start. It runs on Google's servers, so it keeps working when your computer is off.
 
-👉 **[Make your copy](TEMPLATE_COPY_LINK)**, then follow the **[10-minute setup guide](docs/USER_GUIDE.md)**.
+👉 **[Make your copy](https://docs.google.com/spreadsheets/d/1bvzlFjgWtU1maDrdNWZ1CuMPSTxnZM2nBpZFYoscZKo/https://docs.google.com/spreadsheets/d/1bvzlFjgWtU1maDrdNWZ1CuMPSTxnZM2nBpZFYoscZKo/edit?usp=sharing)**, then follow the **[10-minute setup guide](docs/USER_GUIDE.md)**.
 
 ---
 
